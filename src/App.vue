@@ -53,20 +53,29 @@ const collectionSaveEdit = (collectionId: number | undefined, index: number ) =>
 
   // quizCollection (ref) and quiz.quizCollections both share the same reference
   const collectionIndex = quizCollections.findIndex((collection) => collection.id === collectionId);
-  const editedProblems = quizCollections[collectionIndex]?.rawProblems.filter(rawProblem => rawProblem.trim().length > 0) ?? [];
+  const editedProblems = quizCollections[collectionIndex]?.rawProblems;
+  if(!editedProblems) {
+    console.error("Error: editedProblems is undefined!");
+    return;
+  }
+  
+  const cleanedProblems = editedProblems.filter(rawProblem => {
+    // Remove only placeholder <p><br></p> blocks
+    const cleaned = rawProblem.replace(/<p><br><\/p>/gi, '').trim();
+    return cleaned.length > 0;
+  }) ?? [];
   const title = quizCollections[collectionIndex]?.title ?? '';
 
   const collectionData: Collection = {
     id: collectionId,
     title,
-    rawProblems: editedProblems
+    rawProblems: cleanedProblems
   };
 
   quiz.setCollection(db, collectionData);
 
   // reactively removes the empty spaces when deleting lines
   quizCollections[collectionIndex] = collectionData;
-  console.log(quizCollections[collectionIndex])
 }
 
 const collectionAddLine = (collectionId: number | undefined) => {
