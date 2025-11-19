@@ -289,7 +289,8 @@ function renameCollection(collectionId: number | undefined) {
 
   const newCollectionName = prompt("Enter new name:");
   if(!newCollectionName) {
-    alert("Invalid collection name!");
+    // silently ignore the empty name
+    return;
   }
 
   const collectionIndex = quiz.quizCollections.findIndex((collection: Collection) => collection.id === collectionId);
