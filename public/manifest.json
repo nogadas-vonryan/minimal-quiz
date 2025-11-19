@@ -7,6 +7,11 @@
   "theme_color": "#4d92ba",
   "icons": [
     {
+      "src": "img/icons/quiz-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
       "src": "img/icons/quiz-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
