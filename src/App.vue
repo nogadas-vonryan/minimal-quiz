@@ -199,7 +199,7 @@ function displayProblem() {
     return;
   }
 
-  problemDisplay.value.textContent = problem.text;
+  problemDisplay.value.innerHTML = problem.text;
 
   quizProgress.value.textContent = `Problem ${quiz.currentProblemIndex + 1} of ${quiz.problemQueue.length}`;
   quizFeedback.value.textContent = "";
@@ -425,8 +425,10 @@ watch(activeTab, () => {
 
       <!-- INPUT TAB -->
       <div v-show="isActive('input')" class="flex flex-col gap-4">
-        <textarea ref="inputField" placeholder="Type your question here — wrap the words or phrases you want to hide in [brackets] to make them answers." class="w-full min-h-[150px] p-4 rounded-xl border border-gray-300 bg-gray-50
-                 focus:border-indigo-500 focus:outline-none transition resize-y"></textarea>
+        <QuillEditor ref="inputField" placeholder="Type your question here — wrap the words in [brackets] to hide them." 
+            theme="bubble" content-type="html"          
+            class="rounded-xl pb-2 bg-gray-50 border border-gray-300
+                 focus:border-indigo-500 focus:outline-none transition resize-y"></QuillEditor>
 
         <div class="flex flex-wrap flex-col gap-3">
           <input
@@ -511,16 +513,16 @@ watch(activeTab, () => {
                   <div class="mt-4">
                     <li v-for="(line, index) in collection.rawProblems" :key="index" class="my-2">
                       <template v-if="collectionEditingIndex === collection.id && collectionLineEditingIndex === index">
-                        <textarea
-                          v-model="collection.rawProblems[index]"
-                          @blur="collectionSaveEdit(collection.id, index)" 
+                        <QuillEditor
+                          theme="bubble"
+                          content-type="html"
+                          v-model:content="collection.rawProblems[index]"
+                          @blur="collectionSaveEdit(collection.id, index)"
                           class="border rounded px-2 py-1 w-full"
-                        ></textarea>
+                        />
                       </template>
                       <template v-else>
-                        <span @click="collectionEditLine(collection.id, index)" class="cursor-pointer inline-block truncate w-full">
-                          {{ line }}
-                        </span>
+                        <span v-html="line" @click="collectionEditLine(collection.id, index)" class="cursor-pointer inline-block truncate w-full"></span>
                       </template>
                     </li>
                   </div>
