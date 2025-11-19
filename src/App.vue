@@ -15,7 +15,7 @@ const quiz = new Quiz();
 /// ============ ///
 
 /// === STATES === ///
-const inputField = ref<HTMLTextAreaElement | null>(null);
+const inputField = ref('');
 const activeTab = ref('input');
 
 const problemDisplay = ref<HTMLDivElement | null>(null);
@@ -105,7 +105,7 @@ async function handleFile(event: Event) {
   quiz.loadQuizFromText(rawText);
 
   if (inputField.value) {
-    inputField.value.value = rawText;
+    inputField.value = rawText;
   }
 
   // Reset input so selecting same file again triggers change
@@ -132,12 +132,12 @@ function loadBtn() {
     return;
   }
 
-  if (inputField.value.value == '') {
+  if (inputField.value == '') {
     alert("Please enter something first.");
     return;
   }
 
-  quiz.loadQuizFromText(inputField.value.value);
+  quiz.loadQuizFromText(inputField.value);
   activeTab.value = 'quiz';
 }
 
@@ -172,7 +172,7 @@ function collectionLoadBtn(collectionId: number | undefined) {
   activeTab.value = 'quiz';
   
   if(inputField.value) 
-    inputField.value.value = pickedCollection[0].rawProblems.join('\n');
+    inputField.value = pickedCollection[0].rawProblems.join('\n');
 }
 /// =============== ///
 
@@ -255,7 +255,7 @@ async function saveToCollections() {
     return;
   }
 
-  if (inputField.value.value == '') {
+  if (inputField.value == '') {
     alert("Please enter something first.");
     return;
   }
@@ -267,7 +267,7 @@ async function saveToCollections() {
     return;
   }
 
-  const rawProblems = parseQuestionsToRawLines(inputField.value.value.trim());
+  const rawProblems = parseQuestionsToRawLines(inputField.value.trim());
   const newCollection: Collection = {
     title,
     rawProblems
@@ -425,7 +425,7 @@ watch(activeTab, () => {
 
       <!-- INPUT TAB -->
       <div v-show="isActive('input')" class="flex flex-col gap-4">
-        <QuillEditor ref="inputField" placeholder="Type your question here — wrap the words in [brackets] to hide them." 
+        <QuillEditor v-model:content="inputField" placeholder="Type your question here — wrap the words in [brackets] to hide them." 
             theme="bubble" content-type="html"          
             class="rounded-xl pb-2 bg-gray-50 border border-gray-300
                  focus:border-indigo-500 focus:outline-none transition resize-y"></QuillEditor>
