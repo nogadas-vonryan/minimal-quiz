@@ -425,7 +425,7 @@ watch(activeTab, () => {
 
       <!-- INPUT TAB -->
       <div v-show="isActive('input')" class="flex flex-col gap-4">
-        <textarea ref="inputField" placeholder="Enter cloze questions here..." class="w-full min-h-[150px] p-4 rounded-xl border border-gray-300 bg-gray-50
+        <textarea ref="inputField" placeholder="Type your question here — wrap the words or phrases you want to hide in [brackets] to make them answers." class="w-full min-h-[150px] p-4 rounded-xl border border-gray-300 bg-gray-50
                  focus:border-indigo-500 focus:outline-none transition resize-y"></textarea>
 
         <div class="flex flex-wrap flex-col gap-3">
