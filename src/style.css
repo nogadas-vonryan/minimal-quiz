@@ -5,3 +5,7 @@
     min-height: 150px;
     overflow: visible;
 }
+
+details {
+    overflow: visible;
+}
