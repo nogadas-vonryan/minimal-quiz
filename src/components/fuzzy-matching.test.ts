@@ -21,4 +21,12 @@ describe('keywordFuzzyMatch', () => {
     it('handles simplified answers', () => {
         expect(keywordFuzzyMatch('The Lion King', 'lion king')).toBe(true)
     })
+
+    it('handles numbers', () => {
+        expect(keywordFuzzyMatch('1 2-3','1 2 3')).toBe(true)
+    })
+    
+    it('handles hyphens', () => {
+        expect(keywordFuzzyMatch('the spider-man','spider man')).toBe(true)
+    })
 });
