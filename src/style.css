@@ -2,5 +2,6 @@
 
 .ql-container {
     resize: vertical;
-    overflow: auto;
+    min-height: 150px;
+    overflow: visible;
 }
