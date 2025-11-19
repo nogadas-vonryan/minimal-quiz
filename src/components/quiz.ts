@@ -46,7 +46,7 @@ export class Quiz {
         const problem = this.problemQueue[this.currentProblemIndex];
 
         if (!problem) {
-            alert("Can't find that problem!");
+            alert("Press Retry Quiz to try again.");
             return;
         }
 
