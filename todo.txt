@@ -1,5 +1,0 @@
-DONE - Enhancement: Make the collection editing a textarea instead of a one-line input.
-DONE - Bug: Collection becomes empty when edited without id.
-DONE - Feature: Add rename.
-- Feature: Add edit all.
-- Feature: Add history.
