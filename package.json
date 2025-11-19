@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "@vueup/vue-quill": "^1.2.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "string-similarity-js": "^2.1.4",
     "tailwindcss": "^4.1.17",
