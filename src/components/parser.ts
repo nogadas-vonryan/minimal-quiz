@@ -8,7 +8,7 @@ export function parseQuestionsToRawLines(text: string): string[] {
 }
 
 export function parseQuestionsToSentenceWithClozes(text: string): SentenceWithClozes[] {
-    const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+    const lines = text.split(/\r?\n|<br>/).filter(l => l.trim() !== "");
     const questions = lines.map(line => {
         const clozes = [...line.matchAll(/\[(.*?)\]/g)]
             .map(m => m[1])
