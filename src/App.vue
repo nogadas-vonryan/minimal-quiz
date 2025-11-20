@@ -5,6 +5,7 @@ import type { Collection, Stores } from './components/models.ts';
 import { parseQuestionsToRawLines } from './components/parser.ts';
 import { Quiz } from './components/quiz.ts';
 import { generalKnowledgeQuiz, scienceQuiz, popCultureQuiz } from './components/sample-quiz.ts';
+import { fetchGizmoDeck, convertDataToStructuredJSONOutput } from './components/gizmo-api.ts';
 
 const db = new IndexedDBClient<Stores>("offline-quiz-app", 1, {
   collections: { keyPath: "id", autoIncrement: true },
@@ -58,7 +59,7 @@ const collectionSaveEdit = (collectionId: number | undefined, index: number ) =>
     console.error("Error: editedProblems is undefined!");
     return;
   }
-  
+
   const cleanedProblems = editedProblems.filter(rawProblem => {
     // Remove only placeholder <p><br></p> blocks
     const cleaned = rawProblem.replace(/<p><br><\/p>/gi, '').trim();
@@ -119,6 +120,20 @@ async function handleFile(event: Event) {
 
   // Reset input so selecting same file again triggers change
   input.value = ""
+}
+
+async function importGizmoDeck() {
+  const deckStringId = prompt("Enter gizmo deck id:");
+  if(!deckStringId) {
+    return;
+  }
+
+  const deckId = Number(deckStringId);
+  const cardData = await fetchGizmoDeck(deckId);
+  const clozeResults = convertDataToStructuredJSONOutput(cardData);
+  const joinedResults = Object.values(clozeResults).join('<br>');
+  
+  inputField.value = joinedResults;
 }
 /// ============== ///
 
@@ -448,10 +463,16 @@ watch(activeTab, () => {
             @change="handleFile"
           />
 
-          <button @click="importBtn"
-            class="px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition shadow-sm">
-            Import TXT
-          </button>
+          <div class="flex space-x-2">
+            <button @click="importBtn"
+              class="grow px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition shadow-sm">
+              Import TXT
+            </button>
+            <button @click="importGizmoDeck"
+              class="grow px-4 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium transition shadow-sm">
+              Import Gizmo Deck
+            </button>
+          </div>
 
           <button @click="loadBtn"
             class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-medium transition shadow-sm">
