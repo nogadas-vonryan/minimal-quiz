@@ -2,7 +2,7 @@ import type { Problem, SentenceWithClozes, Collection } from './models.ts'
 
 export function parseQuestionsToRawLines(text: string): string[] {
     return text
-        .split(/\r?\n/)
+        .split(/\r?\n|<br>/)
         .map(line => line.trim())
         .filter(line => line !== "");
 }
