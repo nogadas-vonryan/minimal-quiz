@@ -5,7 +5,7 @@ import type { Collection, Stores } from './components/models.ts';
 import { parseQuestionsToRawLines } from './components/parser.ts';
 import { Quiz } from './components/quiz.ts';
 import { generalKnowledgeQuiz, scienceQuiz, popCultureQuiz } from './components/sample-quiz.ts';
-import { fetchGizmoDeck, convertDataToStructuredJSONOutput } from './components/gizmo-api.ts';
+import { fetchGizmoDeck, convertDataToStructuredJSONOutput, extractDeckId } from './components/gizmo-api.ts';
 
 const db = new IndexedDBClient<Stores>("offline-quiz-app", 1, {
   collections: { keyPath: "id", autoIncrement: true },
@@ -123,12 +123,17 @@ async function handleFile(event: Event) {
 }
 
 async function importGizmoDeck() {
-  const deckStringId = prompt("Enter gizmo deck id:");
+  const deckStringId = prompt("Enter gizmo deck id or link:");
   if(!deckStringId) {
     return;
   }
 
-  const deckId = Number(deckStringId);
+  const deckId = extractDeckId(deckStringId);
+  if(!deckId) {
+    alert("Cannot process gizmo deck id.");
+    return;
+  }
+
   const cardData = await fetchGizmoDeck(deckId);
   const clozeResults = convertDataToStructuredJSONOutput(cardData);
   const joinedResults = Object.values(clozeResults).join('<br>');

@@ -5,6 +5,15 @@ export async function fetchGizmoDeck(deckId: number): Promise<CardData> {
     return deckJSON;
 }
 
+export function extractDeckId(input: string) {
+    if (/^\d+$/.test(input.trim())) {
+        return Number(input.trim());
+    }
+
+    const match = input.match(/\/deck\/(\d+)/);
+    return match ? Number(match[1]) : null;
+}
+
 // Interface for the segment object that defines the answer and its location
 export interface TestableSegment {
     segment_text: string;
