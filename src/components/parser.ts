@@ -25,7 +25,7 @@ export function parseQuestionsToSentenceWithClozes(text: string): SentenceWithCl
 }
 
 export function parseQuestionsToProblems(text: string): Problem[] {
-    const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+    const lines = text.split(/\r?\n|<br>/).filter(l => l.trim() !== "");
     const problems: Problem[] = [];
 
     for (const line of lines) {
